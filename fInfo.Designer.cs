@@ -95,7 +95,7 @@
             // 
             // panel1
             // 
-            panel1.BackColor = SystemColors.ActiveCaption;
+            panel1.BackColor = Color.DarkSalmon;
             panel1.Controls.Add(linkLabel2);
             panel1.Controls.Add(linkLabel1);
             panel1.Controls.Add(label8);

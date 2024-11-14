@@ -6,29 +6,49 @@ using System.Threading.Tasks;
 
 namespace Term_Paper
 {
-    public abstract class Applicant
+    public interface IComparableApplicant
+    {
+        int CompareTo(Applicant other);
+    }
+
+    public abstract class Applicant : IComparableApplicant
     {
         public string FirstName { get; set; }
         public string LastName { get; set; }
         public string CertificateSeries { get; set; }
         public string UniversityName { get; set; }
         public double NumberOfSpecialty { get; set; }
-        public bool EducationForm { get; set; }    // true - FullTime, false - Correspondence
+        public bool EducationForm { get; set; }
         public double AverageGrade { get; set; }
         public bool HasContract { get; set; }
         public string Status { get; set; }
 
-        public string EducationFormDisplay
+        // Використання захищеного доступу
+        protected string EducationFormDisplay => EducationForm ? "FullTime" : "Correspondence";
+        protected string HasContractDisplay => HasContract ? "Yes" : "No";
+
+        // Конструктор без аргументів
+        public Applicant()
         {
-            get { return EducationForm ? "FullTime" : "Correspondence"; }
+            FirstName = "";
+            LastName = "";
+            CertificateSeries = "";
+            UniversityName = "";
+            NumberOfSpecialty = 0;
+            EducationForm = false;
+            AverageGrade = 0.0;
+            HasContract = false;
+            Status = "In Process";
         }
 
-        public string HasContractDisplay
+        // Порівняння за середнім балом для реалізації IComparable
+        public int CompareTo(Applicant other)
         {
-            get { return HasContract ? "Yes" : "No"; }
+            if (other == null) return 1;
+            return this.AverageGrade.CompareTo(other.AverageGrade);
         }
 
-
+        // Конструктор з параметрами
         public Applicant(string firstName, string lastName, string certificateSeries, string universityName,
             double numberofSpecialty, bool educationForm, double averageGrade, bool hasContract, string status)
         {
@@ -40,21 +60,21 @@ namespace Term_Paper
             EducationForm = educationForm;
             AverageGrade = averageGrade;
             HasContract = hasContract;
-            Status = "In Process";
+            Status = status;
+        }
+    }
+
+    public class NewApplicant : Applicant
+    {
+        // Використання делегування конструктора
+        public NewApplicant() : base()
+        {
         }
 
-
-
-        public class NewApplicant : Applicant
+        public NewApplicant(string firstName, string lastName, string certificateSeries, string universityName,
+            double numberofSpecialty, bool educationForm, double averageGrade, bool hasContract, string status)
+            : base(firstName, lastName, certificateSeries, universityName, numberofSpecialty, educationForm, averageGrade, hasContract, status)
         {
-            public NewApplicant() : base("", "", "", "", 0, false, 0.0, false, "")
-            {
-            }
-            public NewApplicant(string firstName, string lastName, string certificateSeries, string universityName,
-                double numberofSpecialty, bool educationForm, double averageGrade, bool hasContract, string status)
-                : base(firstName, lastName, certificateSeries, universityName, numberofSpecialty, educationForm, averageGrade, hasContract, status)
-            {
-            }
         }
     }
 }
