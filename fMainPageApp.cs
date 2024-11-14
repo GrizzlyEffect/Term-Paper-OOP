@@ -255,7 +255,7 @@ namespace Term_Paper
         }
 
 
-        private void btnSaveAsBinary_Click(object sender, EventArgs e)
+        private void btnSaveAsCSV_Click(object sender, EventArgs e)
         {
             saveFileDialog.Filter = "Data Files (*.csv)|*.csv|All files (*.*)|*.*";
             saveFileDialog.Title = "Save data in text format";

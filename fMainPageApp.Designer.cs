@@ -214,7 +214,7 @@
             btnSaveAsBinary.TabIndex = 0;
             btnSaveAsBinary.Text = "Save";
             btnSaveAsBinary.UseVisualStyleBackColor = true;
-            btnSaveAsBinary.Click += btnSaveAsBinary_Click;
+            btnSaveAsBinary.Click += btnSaveAsCSV_Click;
             // 
             // groupBox3
             // 

@@ -23,11 +23,16 @@ namespace Term_Paper
         public bool HasContract { get; set; }
         public string Status { get; set; }
 
-        // Використання захищеного доступу
-        protected string EducationFormDisplay => EducationForm ? "FullTime" : "Correspondence";
-        protected string HasContractDisplay => HasContract ? "Yes" : "No";
+        public string EducationFormDisplay
+        {
+            get { return EducationForm ? "FullTime" : "Correspondence"; }
+        }
 
-        // Конструктор без аргументів
+        public string HasContractDisplay
+        {
+            get { return HasContract ? "Yes" : "No"; }
+        }
+
         public Applicant()
         {
             FirstName = "";
@@ -41,14 +46,12 @@ namespace Term_Paper
             Status = "In Process";
         }
 
-        // Порівняння за середнім балом для реалізації IComparable
         public int CompareTo(Applicant other)
         {
             if (other == null) return 1;
             return this.AverageGrade.CompareTo(other.AverageGrade);
         }
 
-        // Конструктор з параметрами
         public Applicant(string firstName, string lastName, string certificateSeries, string universityName,
             double numberofSpecialty, bool educationForm, double averageGrade, bool hasContract, string status)
         {
@@ -66,7 +69,6 @@ namespace Term_Paper
 
     public class NewApplicant : Applicant
     {
-        // Використання делегування конструктора
         public NewApplicant() : base()
         {
         }
