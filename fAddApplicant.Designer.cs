@@ -29,6 +29,10 @@
         private void InitializeComponent()
         {
             groupBox1 = new GroupBox();
+            txtCountry = new TextBox();
+            rbtnForeignNo = new RadioButton();
+            rbtnForeignYes = new RadioButton();
+            label9 = new Label();
             cbEducationForm = new ComboBox();
             label8 = new Label();
             cbHasContract = new ComboBox();
@@ -53,6 +57,10 @@
             // groupBox1
             // 
             groupBox1.BackColor = SystemColors.ScrollBar;
+            groupBox1.Controls.Add(txtCountry);
+            groupBox1.Controls.Add(rbtnForeignNo);
+            groupBox1.Controls.Add(rbtnForeignYes);
+            groupBox1.Controls.Add(label9);
             groupBox1.Controls.Add(cbEducationForm);
             groupBox1.Controls.Add(label8);
             groupBox1.Controls.Add(cbHasContract);
@@ -73,9 +81,42 @@
             groupBox1.Margin = new Padding(3, 4, 3, 4);
             groupBox1.Name = "groupBox1";
             groupBox1.Padding = new Padding(0);
-            groupBox1.Size = new Size(391, 440);
+            groupBox1.Size = new Size(411, 483);
             groupBox1.TabIndex = 0;
             groupBox1.TabStop = false;
+            // 
+            // txtCountry
+            // 
+            txtCountry.Location = new Point(298, 434);
+            txtCountry.Margin = new Padding(3, 4, 3, 4);
+            txtCountry.Name = "txtCountry";
+            txtCountry.Size = new Size(96, 27);
+            txtCountry.TabIndex = 20;
+            // 
+            // rbtnForeignNo
+            // 
+            rbtnForeignNo.Location = new Point(175, 435);
+            rbtnForeignNo.Name = "rbtnForeignNo";
+            rbtnForeignNo.Size = new Size(52, 24);
+            rbtnForeignNo.TabIndex = 21;
+            rbtnForeignNo.Text = "No";
+            // 
+            // rbtnForeignYes
+            // 
+            rbtnForeignYes.Location = new Point(233, 435);
+            rbtnForeignYes.Name = "rbtnForeignYes";
+            rbtnForeignYes.Size = new Size(59, 24);
+            rbtnForeignYes.TabIndex = 22;
+            rbtnForeignYes.Text = "Yes";
+            // 
+            // label9
+            // 
+            label9.AutoSize = true;
+            label9.Location = new Point(21, 439);
+            label9.Name = "label9";
+            label9.Size = new Size(123, 20);
+            label9.TabIndex = 17;
+            label9.Text = "ForeignApplicant";
             // 
             // cbEducationForm
             // 
@@ -220,7 +261,7 @@
             // btnOk
             // 
             btnOk.Cursor = Cursors.Hand;
-            btnOk.Location = new Point(441, 50);
+            btnOk.Location = new Point(462, 50);
             btnOk.Margin = new Padding(3, 4, 3, 4);
             btnOk.Name = "btnOk";
             btnOk.Size = new Size(93, 44);
@@ -232,7 +273,7 @@
             // btnCancel
             // 
             btnCancel.Cursor = Cursors.Hand;
-            btnCancel.Location = new Point(441, 105);
+            btnCancel.Location = new Point(462, 102);
             btnCancel.Margin = new Padding(3, 4, 3, 4);
             btnCancel.Name = "btnCancel";
             btnCancel.Size = new Size(93, 44);
@@ -246,7 +287,7 @@
             AutoScaleDimensions = new SizeF(8F, 20F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = SystemColors.ScrollBar;
-            ClientSize = new Size(547, 482);
+            ClientSize = new Size(567, 539);
             ControlBox = false;
             Controls.Add(btnCancel);
             Controls.Add(btnOk);
@@ -283,5 +324,9 @@
         private ComboBox cbEducationForm;
         private Label label8;
         private ComboBox cbHasContract;
+        private RadioButton rbtnForeignYes;
+        private Label label9;
+        private RadioButton rbtnForeignNo;
+        private TextBox txtCountry;
     }
 }

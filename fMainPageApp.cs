@@ -27,14 +27,14 @@ namespace Term_Paper
 
         private void btnADD_Click(object sender, EventArgs e)
         {
-            NewApplicant data = new NewApplicant("", "", "", "", 0, true, 0.0, false, "");
+            Applicant newApplicant = new NewApplicant("", "", "", "", 0, true, 0.0, false, "In Process", "Ukraine");
 
-            fAddApplicant fd = new fAddApplicant(data);
-            if (fd.ShowDialog() == DialogResult.OK)
+            fAddApplicant addForm = new fAddApplicant(newApplicant);
+
+            if (addForm.ShowDialog() == DialogResult.OK)
             {
-                dataSource.Add(data);
+                dataSource.Add(addForm.NewApplicant);
             }
-
         }
 
         private void btnEDIT_Click(object sender, EventArgs e)
@@ -47,10 +47,17 @@ namespace Term_Paper
 
                 if (editForm.ShowDialog() == DialogResult.OK)
                 {
+                    int index = dataSource.IndexOf(selectedApplicant);
+                    if (index >= 0 && editForm.NewApplicant != selectedApplicant)
+                    {
+                        dataSource[index] = editForm.NewApplicant;
+                    }
+
                     gvApplicants.Refresh();
                 }
             }
         }
+
 
 
         private void btnDEL_Click(object sender, EventArgs e)
@@ -128,21 +135,12 @@ namespace Term_Paper
         }
         private void btnPrepareInterviewList_Click(object sender, EventArgs e)
         {
-
             var interviewList = dataSource.Where(applicant =>
                 applicant.AverageGrade >= PassingScore && !applicant.HasContract).ToList();
 
             foreach (var applicant in interviewList)
             {
-                applicant.Status = "Interview";
-            }
-
-            foreach (var applicant in dataSource)
-            {
-                if (!interviewList.Contains(applicant))
-                {
-                    applicant.Status = "Not Enrolled";
-                }
+                applicant.SetStatus("Interview");
             }
 
             gvApplicants.DataSource = null;
@@ -157,14 +155,14 @@ namespace Term_Paper
             {
                 foreach (var applicant in currentData)
                 {
-                    applicant.Status = "Enrolled";
+                    applicant.SetStatus("Enrolled");
                 }
 
                 foreach (var applicant in dataSource)
                 {
                     if (!currentData.Contains(applicant))
                     {
-                        applicant.Status = "Not Enrolled";
+                        applicant.SetStatus("Not Enrolled");
                     }
                 }
 
@@ -231,19 +229,23 @@ namespace Term_Paper
             column.Name = "Status";
             gvApplicants.Columns.Add(column);
 
+            column = new DataGridViewTextBoxColumn();
+            column.DataPropertyName = "CountryOfOrigin";
+            column.Name = "CountryOfOrigin";
+            gvApplicants.Columns.Add(column);
+
             dataSource = new BindingList<Applicant>();
 
-            dataSource.Add(new NewApplicant("Vlad", "Saiapin", "VN1234", "VNTU", 126, true, 156, true, "In Process"));
-            dataSource.Add(new NewApplicant("Ivan", "Ivanov", "AV3334", "KNU", 014.021, false, 175, false, "In Process"));
-            dataSource.Add(new NewApplicant("Petro", "Petrov", "MK5678", "LNTU", 022, true, 132, false, "In Process"));
-            dataSource.Add(new NewApplicant("Taras", "Shevchenko", "AB1767", "VNU", 034, false, 200, true, "In Process"));
-            dataSource.Add(new NewApplicant("Oleg", "Olegov", "ON1984", "KPI", 162, true, 148, true, "In Process"));
-            dataSource.Add(new NewApplicant("Anna", "Krivonogova", "BT2345", "KNU", 056.072, true, 160, false, "In Process"));
-            dataSource.Add(new NewApplicant("Dmytro", "Lyashenko", "ZA6789", "NULP", 121, false, 178, true, "In Process"));
-            dataSource.Add(new NewApplicant("Maria", "Stepanova", "LM1238", "DniproU", 073, true, 142, false, "In Process"));
-            dataSource.Add(new NewApplicant("Sergiy", "Lysak", "KV9182", "KHPI", 113, false, 189, true, "In Process"));
-            dataSource.Add(new NewApplicant("Olha", "Bondarenko", "DS5521", "VNTU", 231, true, 149, true, "In Process"));
-
+            dataSource.Add(new ForeignApplicant("Vlad", "Saiapin", "VN1234", "VNTU", 126, true, 156, true, "In Process", "Ukraine"));
+            dataSource.Add(new ForeignApplicant("Ivan", "Ivanov", "AV3334", "KNU", 021, false, 175, false, "In Process", "Ukraine"));
+            dataSource.Add(new ForeignApplicant("Petro", "Petrov", "MK5678", "LNTU", 022, true, 132, false, "In Process", "Ukraine"));
+            dataSource.Add(new ForeignApplicant("Taras", "Shevchenko", "AB1767", "VNU", 034, false, 200, true, "In Process", "Ukraine"));
+            dataSource.Add(new ForeignApplicant("Oleg", "Olegov", "ON1984", "KPI", 162, true, 148, true, "In Process", "Ukraine"));
+            dataSource.Add(new ForeignApplicant("Anna", "Krivonogova", "BT2345", "KNU", 072, true, 160, false, "In Process", "Ukraine"));
+            dataSource.Add(new ForeignApplicant("Dmytro", "Lyashenko", "ZA6789", "NULP", 121, false, 178, true, "In Process", "Ukraine"));
+            dataSource.Add(new ForeignApplicant("Anna", "Ivanova", "BT2345", "KNU", 072, true, 160, false, "In Process", "Germany"));
+            dataSource.Add(new ForeignApplicant("Dmytro", "Lyashenko", "ZA6789", "NULP", 121, false, 178, true, "In Process", "Ukraine"));
+            dataSource.Add(new ForeignApplicant("Maria", "Stepanova", "LM1238", "DniproU", 073, true, 142, false, "In Process", "Poland"));
 
             gvApplicants.DataSource = dataSource;
 
@@ -271,7 +273,7 @@ namespace Term_Paper
                         sw.Write(applicant.FirstName + "\t" + applicant.LastName + "\t" +
                             applicant.CertificateSeries + "\t" + applicant.UniversityName + "\t" + applicant.NumberOfSpecialty + "\t" + applicant.EducationForm + "\t"
                             + applicant.AverageGrade + "\t" +
-                            applicant.HasContract + applicant.Status + "\t\n");
+                            applicant.HasContract + "\t" + applicant.Status + "\t" + applicant.CountryOfOrigin + "\t\n");
                     }
                 }
                 catch (Exception ex)
@@ -304,8 +306,8 @@ namespace Term_Paper
                     {
                         string[] split = s.Split('\t');
                         Applicant applicant = new NewApplicant(split[0], split[1], split[2], split[3],
-                            double.Parse(split[4]), bool.Parse(split[5]), double.Parse(split[6]),
-                            bool.Parse(split[7]), split[8]);
+                            int.Parse(split[4]), bool.Parse(split[5]), double.Parse(split[6]),
+                            bool.Parse(split[7]), split[8], split[9]);
                         dataSource.Add(applicant);
                     }
                 }
